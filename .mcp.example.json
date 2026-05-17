@@ -1,0 +1,16 @@
+{
+  "_comment": "Copy to .mcp.json (gitignored) and replace <REPO_ROOT> with the absolute path to your local clone of this repository.",
+  "mcpServers": {
+    "cto-os": {
+      "command": "<REPO_ROOT>/.venv/bin/python",
+      "args": ["-m", "cto_os_api.mcp_server"],
+      "cwd": "<REPO_ROOT>",
+      "env": {
+        "CTO_OS_LLM_PROVIDER": "deterministic",
+        "CTO_OS_SQLITE_PATH": "cto_os_api/data/cto_os.sqlite3",
+        "CTO_OS_DATA_PATH": "cto_os_api/data/cto_os.json",
+        "CTO_OS_CHROMA_CACHE_DIR": "cto_os_api/data/chroma_cache"
+      }
+    }
+  }
+}

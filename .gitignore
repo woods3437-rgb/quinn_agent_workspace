@@ -1,0 +1,135 @@
+# ---------------------------------------------------------------------------
+# CTO OS — repository ignores
+# Anything containing operator runtime state, secrets, caches, build output,
+# or personal paths goes here. Templates (*.example.* files) are committed
+# but must not contain real secrets or hardcoded /Users/<name>/ paths.
+# ---------------------------------------------------------------------------
+
+# --- secrets / env -----------------------------------------------------------
+.env
+.env.*
+!.env.example
+*.env
+*.envrc
+secrets.json
+secrets.yaml
+secrets.yml
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+
+# --- python build / cache ----------------------------------------------------
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.tox/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+.hypothesis/
+
+# --- node / next / vite ------------------------------------------------------
+node_modules/
+.next/
+out/
+.turbo/
+.cache/
+.parcel-cache/
+.swc/
+.vercel/
+*.tsbuildinfo
+.npm/
+.yarn/
+
+# --- editor / OS -------------------------------------------------------------
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+Thumbs.db
+
+# --- CTO OS runtime state ----------------------------------------------------
+# Operator-private. Includes the live SQLite DB, JSON metadata, MemPalace
+# vector cache, snapshots, and Phase 3 migration backups. None of this is
+# safe to share publicly.
+cto_os_api/data/
+cto_os_api/cto_os.sqlite3
+cto_os_api/cto_os.sqlite3-*
+*.sqlite3
+*.sqlite3-journal
+*.sqlite3-shm
+*.sqlite3-wal
+
+# --- CTO OS runtime sidecar dirs --------------------------------------------
+# .cto_os/ holds local PIDs + logs from `cto_os` CLI commands.
+.cto_os/
+.cto_os/logs/
+.cto_os/run/
+.cto_os/pid/
+
+# --- MemPalace local data ---------------------------------------------------
+# MemPalace stores ChromaDB + per-project memory under a few possible roots.
+# Add the common ones; the user-configurable path is left to the operator
+# to ignore in their local .gitignore if needed.
+.mempalace/
+mempalace_data/
+chroma_data/
+chroma_cache/
+onnx_models/
+
+# --- logs / pids / temp ------------------------------------------------------
+*.log
+*.pid
+*.pid.lock
+*.seed
+*.tgz
+*.lock.json
+.tmp/
+tmp/
+
+# --- snapshots / backups -----------------------------------------------------
+*.snapshot
+*.snap.bak
+snapshots/
+backups/
+*_backup_*.json
+*.bak
+
+# --- local MCP / Claude / Codex config with personal paths -------------------
+# Templates (.mcp.example.json, claude_desktop_config.example.json) are
+# committed; the LIVE versions (without ".example.") are operator-local
+# and must not be shared.
+.mcp.json
+.mcp.local.json
+claude_desktop_config.json
+.claude/local/
+.claude/settings.local.json
+.claude/.session*
+.codex/
+
+# --- worktrees (Claude Code feature) ----------------------------------------
+worktrees/
+.worktrees/
+
+# --- one-off smoke scripts ---------------------------------------------------
+# Captured here so dev-time smokes (e.g. phase15_neutral_smoke.py) don't
+# accidentally land in the repo. Delete instead of ignoring if no longer
+# needed.
+phase*_smoke_tmp.py
