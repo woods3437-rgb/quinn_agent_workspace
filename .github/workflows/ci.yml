@@ -1,5 +1,16 @@
 name: Tests
 
+# Scope: MemPalace package tests only.
+#
+# The CTO OS test suite under tests/cto_os/ is intentionally NOT run here.
+# CTO OS is still evolving rapidly, has local runtime assumptions (live
+# SQLite DB, Chroma cache, project-specific paths), and pulls in heavier
+# deps that aren't part of the MemPalace `[dev]` extra. The CTO OS suite
+# is run locally via:
+#     .venv/bin/python -m pytest tests/cto_os -q
+# Once CTO OS stabilizes and its deps are properly declared, this
+# workflow can be expanded to cover it.
+
 on:
   push:
     branches: [main]
@@ -13,18 +24,18 @@ jobs:
       matrix:
         python-version: ["3.9", "3.11", "3.13"]
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
       - run: pip install -e ".[dev]"
-      - run: python -m pytest tests/ -v --cov=mempalace --cov-report=term-missing --cov-fail-under=30
+      - run: python -m pytest tests/ -v --ignore=tests/cto_os --cov=mempalace --cov-report=term-missing --cov-fail-under=30
 
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
       - run: pip install ruff
